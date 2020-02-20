@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>kn95</title>
+    <!-- 引入 echarts.js -->
+   <script type="text/javascript" src="js/jquery-1.10.1.min.js" ></script>
+   
+  <!--<script type="text/javascript" src="js/echarts.min.js" ></script>-->
+  <script src="https://cdn.bootcss.com/echarts/3.0.0/echarts.min.js"></script>
+
+		<script type="text/javascript" src="js/hubei.js" ></script>
+ 
+     
+    <style>
+    	.tip {     width: 120px;
+    height: 150px;
+    position: absolute;
+    background: #fff;
+    bottom: 40px;
+    right: 90px;
+    font-size: 10px;
+    border:1px solid #ccc;
+    padding-left: 10px;
+    	}
+    </style>
+</head>
+<body style="width: 600px;height:500px;position:relative;margin:0 auto;margin-top:50px">
+	<div class='tip'>
+		<p>武汉市直管区</p>
+		<p>东湖风景区:1750</p>
+		<p>东湖高新区:2560</p>
+		<p>东湖开发区:1000</p>
+		<p>经开汉南区:4160</p>
+	</div>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:500px;margin:0 auto">
+    	
+    </div>
+ 
+</body>
+   <script type="text/javascript">
+ 
+	    	$.get('js/wuhan.json', function (gansuJson){
+        echarts.registerMap('wuhan', gansuJson);
+        var chart = echarts.init(document.getElementById('main'));
+        
+//      var dataMap = [{ name: '武汉市' }, { name: '孝感市' }, ];
+         
+        option = {
+            title: {
+            	x: 'left',
+            	y: 'top',
+                text: '武汉市各地区N95及以上口罩发放情况',
+                subtext:"数据来源：武汉市红十字会"
+            },
+            
+             tooltip: {
+            trigger: 'item',
+            formatter: '{b}<br/>{c} (个)'
+        },
+              toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                dataView: {readOnly: false},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+            
+        visualMap: {
+            min: 1000,
+            max: 20000,
+            text:['max','min'],
+            realtime: false,
+            calculable: true,
+            inRange: {
+//              color: ['lightskyblue','yellow', 'orangered']
+//				 color: ['#e0ffff', '#006edd']
+ color: ['#D5A1A9', '#c30d23']
+            }
+        },
+ 
+            series:[
+            	{
+            		name:'人口数量',
+            		type:'map',
+            		map:'wuhan',
+            	
+            		mapLocation:{
+            			y:100
+            		},
+            		itemSytle:{
+            			normal:{label:{show:true}},
+            			emphasis:{label:{show:false}}
+            		},
+            		 label: {
+                    normal: {show: false},
+                    emphasis: {show: true},
+                    
+                   },
+            		data:[
+            			{name:'蔡甸区',value:1520},
+            			{name:'东西湖区',value:15160},
+            			{name:'汉阳区',value:3060},
+            			{name:'洪山区',value:4460},
+            			
+            			{name:'黄陂区',value:7620},
+            			{name:'江岸区',value:3060},
+            			{name:'江汉区',value:3060},
+            			{name:'江夏区',value:6120},
+            			
+            			{name:'硚口区',value:48709},
+            			{name:'青山区',value:2760},
+            			{name:'武昌区',value:2330},
+            			{name:'新洲区',value:2520},
+            		
+            		],
+            						
+            	}
+            ],
+            
+        };
+        chart.setOption(option);
+});
+ 
+ 
+ </script>
+</html>
+ 
