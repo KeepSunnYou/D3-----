@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>手套</title>
+    <!-- 引入 echarts.js -->
+   <script type="text/javascript" src="js/jquery-1.10.1.min.js" ></script>
+    <script src="https://cdn.bootcss.com/echarts/3.0.0/echarts.min.js"></script>
+ 
+     
+    <style>
+    	.tip {       
+    		width: 160px;
+    height: 180px;
+    position: absolute;
+    background: #fff;
+    bottom: 20px;
+    right: 50px;
+    font-size: 10px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    	}
+    </style>
+</head>
+<body style="width: 600px;height:500px;position:relative;margin:0 auto; margin-top:50px">
+	<div class='tip'>
+		<p>武汉市各区指挥部:200100</p>
+		<p>武汉市直管区</p>
+		<p>东湖风景区:5546</p>
+		<p>东湖高新区:18480</p>
+		<p>东湖开发区:无</p>
+		<p>经开汉南区:33978</p>
+		
+		
+	</div>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:500px;margin:0 auto">
+    	
+    </div>
+ 
+</body>
+   <script type="text/javascript">
+ 
+	    	$.get('js/wuhan.json', function (gansuJson){
+        echarts.registerMap('wuhan', gansuJson);
+        var chart = echarts.init(document.getElementById('main'));
+        
+//      var dataMap = [{ name: '武汉市' }, { name: '孝感市' }, ];
+         
+        option = {
+            title: {
+            	x: 'left',
+            	y: 'top',
+                text: '武汉市各地区手套发放情况',
+                subtext:"数据来源：武汉市红十字会"
+            },
+            
+             tooltip: {
+            trigger: 'item',
+            formatter: '{b}<br/>{c}'
+        },
+              toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                dataView: {readOnly: false},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+            
+        visualMap: {
+            min: 10000,
+            max: 50000,
+            text:['max','min'],
+            realtime: false,
+            calculable: true,
+            inRange: {
+//              color: ['lightskyblue','yellow', 'orangered']
+				color: ['#D5A1A9', '#c30d23']
+            }
+        },
+ 
+            series:[
+            	{
+            		name:'手套数量',
+            		type:'map',
+            		map:'wuhan',
+            	
+            		mapLocation:{
+            			y:100
+            		},
+            		itemSytle:{
+            			normal:{label:{show:true}},
+            			emphasis:{label:{show:false}}
+            		},
+            		 label: {
+                    normal: {show: false},
+                    emphasis: {show: true},
+                    
+                   },
+            		data:[
+            			{name:'蔡甸区',value:27192},
+            			{name:'东西湖区',value:26618},
+            			{name:'汉阳区',value:20100},
+            			{name:'洪山区',value:19850},
+            			
+            			{name:'黄陂区',value:31488},
+            			{name:'江岸区',value:18850},
+            			{name:'江汉区',value:18850},
+            			{name:'江夏区',value:49134},
+            			
+            			{name:'硚口区',value:21350},
+            			{name:'青山区',value:20100},
+            			{name:'武昌区',value:19850},
+            			{name:'新洲区',value:26618},
+            		
+            		],
+            						
+            	}
+            ],
+            
+        };
+        chart.setOption(option);
+});
+ 
+ 
+ </script>
+</html>
+ 
