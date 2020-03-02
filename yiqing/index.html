@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<script type="text/javascript" src="js/echarts.min.js" ></script>
+		<script type="text/javascript" src="js/jquery.min.js" ></script>
+		<title></title>
+		<script>
+			function goBackChinaMap(){
+				$('#china_map').css('display','block');
+        		$('#city_map').css('display','none');
+				$('#proe_map').css('display','none');
+			}
+			function goBackProeMap(){
+				$('#china_map').css('display','none');
+        		$('#city_map').css('display','none');
+				$('#proe_map').css('display','block');
+			}
+		</script>
+	</head>
+	<body>
+
+		<div id="main" style="height:650px;width:1300px;margin:50px auto;border:1px solid #ccc;background: #f2f2f2;position: relative;">
+			<div id="china_map" style="width:960px;height:650px;margin:0 auto;position: absolute;top:10px;left:80px;display: block;"></div>
+			<div id="proe_map" style="width:960px;height:650px;margin:0 auto;position: absolute;top:10px;left:80px;display: none;"></div>
+			<div id="city_map" style="width:960px;height:650px;margin:0 auto;position: absolute;top:10px;left:80px;display: none;"></div>
+			<div class="retPro" style="z-index:999;position: absolute;top:50px;left:10px;display: block;">
+						<a href="javascript:void(0);" onclick="goBackChinaMap()" style="height:30px;background:#fff;line-height: 30px;border:1px solid #ccc;padding:5px 10px;margin-left:20px;border-radius:5px;cursor: pointer;color:#393939;text-decoration:none;">
+							返回全国
+						</a>
+			</div>
+			<div class="retPro" style="z-index:999;position: absolute;top:50px;left:110px;display: block;">
+						<a href="javascript:void(0);" onclick="goBackProeMap()" style="height:30px;background:#fff;line-height: 30px;border:1px solid #ccc;padding:5px 10px;margin-left:20px;border-radius:5px;cursor: pointer;color:#393939;text-decoration:none;">
+							返回本省
+						</a>
+			</div>
+		</div>
+
+		<script>
+			$().ready(function(){
+			 /*echarts*/
+				   $.get('json/china.json', function (mapJson) {
+				   		echarts.registerMap('china', mapJson);
+					    var chart = echarts.init(document.getElementById('china_map'));//在id为mainMap的dom元素中显示地图
+					  	chart.setOption({
+					        tooltip: {
+					            trigger: 'item',
+					            formatter: function (result){//回调函数，参数params具体格式参加官方API
+					               return result.name+'<br />数据:'+result.value;
+					            }
+					        },
+					        dataRange:{
+				               	min:0,
+				               	max:1300,
+				               	splitNumber:0,
+				              	text:['高','低'],
+				                realtime:false,
+				               	calculable:false,
+				               	selectedMode:false,
+				               	realtime:false,
+				               	show:false,
+				               	itemWidth:10,
+				               	itemHeight:60,
+				               	color:['green','#95DB9A']
+				            },
+							title:{
+						        text:'全国疫情治愈数据统计',
+						       subtext: '数据来源卫健委(截至2020-03-02)',
+						        x:'center',
+						        y:'top',
+						        textAlign:'left'
+						    },
+					        series: [{
+					            type: 'map',
+					            map: 'china',//要和echarts.registerMap（）中第一个参数一致
+					            scaleLimit: { min: 0.8, max: 1.9 },//缩放
+					             mapLocation:{
+			                        y:60
+			                    },
+			                    itemSytle:{
+			                        emphasis:{label:{show:false}}
+			                    },
+					            label: {
+					                normal: {
+					                    show: true
+					                },
+					                emphasis: {
+					                    show: true
+					                }
+					            },
+					            data : [
+					            	{name:'湖北',value:'33757'},
+			                        {name:'广东',value:'1039'},
+			                        {name:'山东',value:'460'},
+			                        {name:'四川',value:'378'},
+			                        {name:'浙江',value:'1057'},
+			                        {name:'湖南',value:'881'},
+			                        {name:'北京',value:'282'},
+			                        
+			                        {name:'重庆',value:'450'},
+			                        {name:'黑龙江',value:'352'},
+			                        {name:'安徽',value:'889'},
+			                        {name:'江苏',value:'538'},
+			                        {name:'江西',value:'850'},
+			                        {name:'广西',value:'188'},
+			                        {name:'香港',value:'36'},
+			                        
+			                        {name:'福建',value:'247'},
+			                        {name:'河南',value:'1206'},
+			                        {name:'上海',value:'292'},
+			                        {name:'贵州',value:'114'},
+			                        {name:'台湾',value:'12'},
+			                        {name:'陕西',value:'216'},
+			                        {name:'内蒙古',value:'52'},
+			                        
+			                        {name:'天津',value:'111'},
+			                        {name:'辽宁',value:'103'},
+			                        {name:'河北',value:'294'},
+			                        {name:'山西',value:'116'},
+			                        {name:'吉林',value:'79'},
+			                        {name:'海南',value:'151'},
+			                        {name:'新疆',value:'64'},
+			                        
+			                        {name:'宁夏',value:'69'},
+			                        {name:'甘肃',value:'84'},
+			                        {name:'云南',value:'168'},
+			                        {name:'澳门',value:'8'},
+			                        {name:'青海',value:'18'},
+			                        {name:'西藏',value:'1'},
+			                        
+			                    
+			                        {name:'朝阳区',value:'0'},
+			                         {name:'海淀区',value:'0'},
+			                           {name:'西城区',value:'0'},
+			                            {name:'延庆区',value:'0'},
+			                            {name:'顺义区',value:'0'},
+			                         {name:'怀柔区',value:'0'},
+			                           {name:'密云区',value:'0'},
+			                             {name:'丰台区',value:'3'},
+			                        {name:'通州区',value:'1'},
+			                        {name:'房山区',value:'3'},
+			                        {name:'石景山区',value:'1'},
+			                         {name:'东城区',value:'1'},
+			                          {name:'门头沟区',value:'2'},
+			                        
+			                        {name: '南海诸岛',value: 0, itemStyle:{ normal:{opacity:0,label:{show:false}}} }
+					            ]//dataParam//人口数据：例如[{name:'济南',value:'100万'},{name:'菏泽'，value:'100万'}......]
+					        }]
+					    }),
+
+					    chart.on('click', function (result) {//回调函数，点击时触发，参数params格式参加官方API
+
+					    		setTimeout(function () {
+        									$('#china_map').css('display','none');
+        									$('#city_map').css('display','none');
+					       					$('#proe_map').css('display','block');
+					       			}, 500);
+					       	 //选择省的单击事件
+					       	var selectProe = result.name;
+					       	//    调取后台数据
+							$.get('json/'+selectProe+'/'+selectProe+'.json', function (Citymap) {
+							  		echarts.registerMap(selectProe, Citymap);
+							  		var myChartProe = echarts.init(document.getElementById('proe_map'));
+							  		myChartProe.setOption({
+								        tooltip: {
+								            trigger: 'item',
+								            formatter: function loadData(result){//回调函数，参数params具体格式参加官方API
+								                return result.name+'<br />数据:'+result.value;
+								            }
+								        },
+								        dataRange:{
+							                min:0,
+							                max:2400,
+							                text:['高','低'],
+							                realtime:false,
+							                calculable:false,
+							                splitNumber:0,
+							               	itemWidth:10,
+							               	show:false,
+							               	itemHeight:60,
+							             	color:['#95DB9A','green']
+							            },
+										title:{
+									        text:selectProe+'数据总览',
+									        //subtext:'',
+									        x:'center',
+									        y:'top',
+									        textAlign:'left'
+									    },
+								        series: [{
+								            type: 'map',
+								            map: selectProe ,//要和echarts.registerMap（）中第一个参数一致
+								            scaleLimit: { min: 0.8, max: 1.9 },//缩放
+								             mapLocation:{
+						                        y:60
+						                    },
+						                    itemSytle:{
+						                        emphasis:{label:{show:false}}
+						                    },
+								            label: {
+								                normal: {
+								                    show: true
+								                },
+								                emphasis: {
+								                    show: true
+								                }
+								            },
+								            data : [
+								            	{name:'武汉市',value:'21185'},
+						                        {name:'孝感市',value:'2397'},
+						                        {name:'黄冈市',value:'2260'},
+						                        {name:'鄂州市',value:'814'},
+						                        {name:'荆州市',value:'1096'},
+						                        {name:'随州市',value:'865'},
+						                        
+						                        
+						                        {name:'宜昌市',value:'535'},
+						                        {name:'荆门市',value:'622'},
+						                        {name:'襄阳市',value:'885'},
+						                        {name:'黄石市',value:'729'},
+						                        {name:'十堰市',value:'459'},
+						                        {name:'仙桃市',value:'461'},
+						                        
+						                        {name:'咸宁市',value:'730'},
+						                        {name:'天门市',value:'393'},
+						                        {name:'潜江市',value:'122'},
+						                        {name:'恩施土家族苗族自治州',value:'193'},
+						                        {name:'神农架林区',value:'11'},
+						                        
+								            ]//dataParam//人口数据：例如[{name:'济南',value:'100万'},{name:'菏泽'，value:'100万'}......]
+								        }]
+								    })
+							  		myChartProe.on('click',function(rel){
+							  				setTimeout(function () {
+							  					function contains(arr, obj) {
+										    var i = arr.length;
+										    while (i--) {
+										        if (arr[i] === obj) {
+										            return true;
+										        }
+										    }
+										    return false;
+										}
+										var arr = new Array('北京','上海','天津','台湾','重庆');
+											if(contains(arr,selectProe)==false){
+												$('#china_map').css('display','none');
+		        								$('#proe_map').css('display','none');
+							       				$('#city_map').css('display','block');
+											}
+											else{
+												$('#china_map').css('display','none');
+		        								$('#proe_map').css('display','block');
+							       				$('#city_map').css('display','none');
+											}
+
+						       			}, 500);
+						       			//选择市的单击事件
+								       	var selectCity = rel.name;
+
+										//    调取后台数据
+										$.get('json/'+selectProe+'/'+selectCity+'.json', function (Citymap) {
+										  		echarts.registerMap(selectCity, Citymap);
+										  		var myChartCity = echarts.init(document.getElementById('city_map'));
+										  		myChartCity.setOption({
+											        tooltip: {
+											            trigger: 'item',
+											            formatter: function loadData(result){//回调函数，参数params具体格式参加官方API
+											                return result.name+'<br />数据:'+result.value;
+											            }
+											        },
+											        dataRange:{
+										                min:0,
+										                max:50,
+										                text:['高','低'],
+										                realtime:false,
+										                show:false,
+										                calculable:false,
+										                splitNumber:0,
+										               	itemWidth:10,
+										               	itemHeight:60,
+										                	color:['#95DB9A','green']
+										            },
+													title:{
+												        text:selectCity+'数据总览',
+												        //subtext:'',
+												        x:'center',
+												        y:'top',
+												        textAlign:'left'
+												    },
+											        series: [{
+											            type: 'map',
+											            map: selectCity ,//要和echarts.registerMap（）中第一个参数一致
+											            scaleLimit: { min: 0.8, max: 1.9 },//缩放
+											             mapLocation:{
+									                        y:60
+									                    },
+									                    itemSytle:{
+									                        emphasis:{label:{show:false}}
+									                    },
+											            label: {
+											                normal: {
+											                    show: true
+											                },
+											                emphasis: {
+											                    show: true
+											                }
+											            },
+											            data : [
+											            	{name:'大方县',value:'5'},
+									                        {name:'金沙县',value:'0'},
+									                        {name:'织金县',value:'10'},
+									                        {name:'七星关区',value:'30'},
+									                        {name:'纳雍县',value:'50'},
+									                        {name:'赫章县',value:'15'}
+											            ]//dataParam//人口数据：例如[{name:'济南',value:'100万'},{name:'菏泽'，value:'100万'}......]
+											        }]
+											    })
+										  		myChartCity.on('click',function(rel){
+										  			setTimeout(function () {
+			        									//$('#cont_pro_map').css('display','block');
+								       					//$('#cont_city_map').css('display','none');
+			    									}, 500);
+
+										  		})
+										  	});
+
+									})
+							  	});
+							});
+						});
+					});
+		</script>
+	</body>
+</html>
